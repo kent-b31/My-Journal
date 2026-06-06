@@ -1,0 +1,193 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f3f4f6;
+}
+
+/* LOGIN */
+
+.login-container{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+#logo {
+    height: 100px;
+    width: 300px;
+}
+
+.login-box{
+    background:white;
+    padding:30px;
+    width:350px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
+}
+
+.login-box h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.login-box input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+}
+
+.login-box button{
+    width:100%;
+    padding:12px;
+    cursor:pointer;
+}
+
+#loginError{
+    color:red;
+    margin-top:10px;
+}
+
+.hidden{
+    display:none;
+}
+
+/* HEADER */
+
+header{
+    background:white;
+    padding:15px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
+}
+
+.logout-btn{
+    background:red;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* ENTRY FORM */
+
+.entry-form{
+    background:white;
+    width:90%;
+    max-width:800px;
+    margin:20px auto;
+    padding:20px;
+    border-radius:15px;
+}
+
+.entry-form input,
+.entry-form textarea{
+    width:100%;
+    padding:12px;
+    margin-bottom:10px;
+}
+
+.entry-form textarea{
+    min-height:150px;
+    resize:vertical;
+}
+
+.entry-form button{
+    width:100%;
+    padding:12px;
+    border:none;
+    background:#2563eb;
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* POSTS */
+
+#entriesContainer{
+    width:90%;
+    max-width:800px;
+    margin:auto;
+}
+
+.post{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 3px 10px rgba(0,0,0,.1);
+}
+
+.post-title{
+    font-size:24px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.post-date{
+    color:gray;
+    font-size:13px;
+    margin-bottom:15px;
+}
+
+.post-content{
+    white-space:pre-wrap;
+    margin-bottom:15px;
+}
+
+/* FIXED MEDIA SIZE */
+
+.post-media{
+    width:100%;
+    height:400px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+/* DELETE */
+
+.delete-btn{
+    background:#dc2626;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:6px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+/* PAGINATION */
+
+.pagination{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    padding:20px;
+}
+
+.pagination button{
+    padding:10px 20px;
+    cursor:pointer;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .post-media{
+        height:250px;
+    }
+
+    .post-title{
+        font-size:20px;
+    }
+
+}
