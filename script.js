@@ -1,12 +1,12 @@
 // ============================
-// Entries CONFIG
+// SUPABASE CONFIG
 // ============================
 
 const SUPABASE_URL =
-'https://qkuhuexbwwkeyjhamlpu.supabase.co';
+"https://qkuhuexbwwkeyjhamlpu.supabase.co";
 
 const SUPABASE_KEY =
-'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFrdWh1ZXhid3drZXlqaGFtbHB1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NTAyNTYsImV4cCI6MjA5NjMyNjI1Nn0.X26WBUuTIb2Gh6lAgIe7UQG6zhgrpdBOhGCDbPV85S4';
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFrdWh1ZXhid3drZXlqaGFtbHB1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NTAyNTYsImV4cCI6MjA5NjMyNjI1Nn0.X26WBUuTIb2Gh6lAgIe7UQG6zhgrpdBOhGCDbPV85S4";
 
 const supabaseClient =
 window.supabase.createClient(
@@ -18,28 +18,30 @@ window.supabase.createClient(
 // GLOBAL VARIABLES
 // ============================
 
-let Entries = [];
+let entries = [];
 
 let currentPage = 1;
-const EntriesPerPage = 5;
+
+const entriesPerPage = 5;
 
 // ============================
 // LOGIN
 // ============================
 
-window.login = async function(){
+window.login = async function () {
 
     const email =
-    document.getElementById(
-        "email"
-    ).value.trim();
+        document
+        .getElementById("email")
+        .value
+        .trim();
 
     const password =
-    document.getElementById(
-        "password"
-    ).value;
+        document
+        .getElementById("password")
+        .value;
 
-    if(!email || !password){
+    if (!email || !password) {
 
         alert(
             "Please enter email and password."
@@ -49,16 +51,18 @@ window.login = async function(){
     }
 
     const { error } =
-    await supabaseClient.auth.signInWithPassword({
+        await supabaseClient.auth
+        .signInWithPassword({
 
-        email,
-        password
+            email,
+            password
 
-    });
+        });
 
-    if(error){
+    if (error) {
 
         alert(error.message);
+
         return;
     }
 
@@ -77,7 +81,7 @@ window.login = async function(){
 // LOGOUT
 // ============================
 
-window.logout = async function(){
+window.logout = async function () {
 
     await supabaseClient.auth.signOut();
 
@@ -85,22 +89,29 @@ window.logout = async function(){
 };
 
 // ============================
-// CREATE ENTRY
+// ADD ENTRY + GIF UPLOAD
 // ============================
 
-window.addEntry = async function(){
+window.addEntry = async function () {
 
     const title =
-    document.getElementById(
-        "title"
-    ).value.trim();
+        document
+        .getElementById("title")
+        .value
+        .trim();
 
     const content =
-    document.getElementById(
-        "entry"
-    ).value.trim();
+        document
+        .getElementById("entry")
+        .value
+        .trim();
 
-    if(!title || !content){
+    const file =
+        document
+        .getElementById("media")
+        .files[0];
+
+    if (!title || !content) {
 
         alert(
             "Please fill out all fields."
@@ -112,22 +123,82 @@ window.addEntry = async function(){
     const {
         data: { user }
     } =
-    await supabaseClient.auth.getUser();
+        await supabaseClient.auth
+        .getUser();
+
+    let mediaUrl = null;
+
+    // ========================
+    // UPLOAD IMAGE/GIF
+    // ========================
+
+    if (file) {
+
+        const fileName =
+            `${Date.now()}-${file.name}`;
+
+        const {
+            error: uploadError
+        } =
+            await supabaseClient
+            .storage
+            .from("journal0media")
+            .upload(
+                fileName,
+                file
+            );
+
+        if (uploadError) {
+
+            console.error(
+                uploadError
+            );
+
+            alert(
+                uploadError.message
+            );
+
+            return;
+        }
+
+        const {
+            data
+        } =
+            supabaseClient
+            .storage
+            .from("journal0media")
+            .getPublicUrl(
+                fileName
+            );
+
+        mediaUrl =
+            data.publicUrl;
+    }
+
+    // ========================
+    // SAVE ENTRY
+    // ========================
 
     const { error } =
-    await supabaseClient
-    .from("Entries")
-    .insert({
+        await supabaseClient
+        .from("Entries")
+        .insert([{
 
-        user_id: user.id,
+            user_id:
+                user.id,
 
-        title: title,
+            title:
+                title,
 
-        content: content
+            content:
+                content,
 
-    });
+            media_url:
+                mediaUrl
 
-    if(error){
+        }]);
+
+    if (error) {
 
         console.error(error);
 
@@ -136,13 +207,17 @@ window.addEntry = async function(){
         return;
     }
 
-    document.getElementById(
-        "title"
-    ).value = "";
+    document
+        .getElementById("title")
+        .value = "";
 
-    document.getElementById(
-        "entry"
-    ).value = "";
+    document
+        .getElementById("entry")
+        .value = "";
+
+    document
+        .getElementById("media")
+        .value = "";
 
     currentPage = 1;
 
@@ -150,45 +225,45 @@ window.addEntry = async function(){
 };
 
 // ============================
-// LOAD Entries
+// LOAD ENTRIES
 // ============================
 
-async function loadEntries(){
+async function loadEntries() {
 
     const {
         data: { user }
     } =
-    await supabaseClient.auth.getUser();
+        await supabaseClient.auth
+        .getUser();
 
-    if(!user) return;
+    if (!user) return;
 
-    const { data, error } =
-    await supabaseClient
-    .from("Entries")
-    .select("*")
-    .eq(
-        "user_id",
-        user.id
-    )
-    .order(
-        "created_at",
-        {
-            ascending:false
-        }
-    );
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+        .from("Entries")
+        .select("*")
+        .eq(
+            "user_id",
+            user.id
+        )
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        );
 
-    if(error){
+    if (error) {
 
         console.error(error);
-
-        alert(
-            "Failed to load Entries."
-        );
 
         return;
     }
 
-    Entries = data || [];
+    entries = data || [];
 
     renderEntries();
 }
@@ -198,22 +273,25 @@ async function loadEntries(){
 // ============================
 
 window.deleteEntry =
-async function(id){
+async function (id) {
 
-    const confirmDelete =
-    confirm(
-        "Delete this journal entry?"
-    );
+    const confirmed =
+        confirm(
+            "Delete this journal entry?"
+        );
 
-    if(!confirmDelete) return;
+    if (!confirmed) return;
 
     const { error } =
-    await supabaseClient
-    .from("Entries")
-    .delete()
-    .eq("id", id);
+        await supabaseClient
+        .from("Entries")
+        .delete()
+        .eq(
+            "id",
+            id
+        );
 
-    if(error){
+    if (error) {
 
         console.error(error);
 
@@ -226,104 +304,126 @@ async function(id){
 };
 
 // ============================
-// RENDER Entries
+// RENDER ENTRIES
 // ============================
 
-function renderEntries(){
+function renderEntries() {
 
     const container =
-    document.getElementById(
-        "EntriesContainer"
-    );
+        document.getElementById(
+            "EntriesContainer"
+        );
+
+    if (!container) return;
 
     container.innerHTML = "";
 
     const start =
-    (currentPage - 1)
-    * EntriesPerPage;
+        (currentPage - 1)
+        * entriesPerPage;
 
     const end =
-    start + EntriesPerPage;
+        start +
+        entriesPerPage;
 
     const pageEntries =
-    Entries.slice(start,end);
+        entries.slice(
+            start,
+            end
+        );
 
     pageEntries.forEach(
-    (entry)=>{
+        (entry) => {
 
-        const post =
-        document.createElement(
-            "div"
-        );
+            const post =
+                document.createElement(
+                    "div"
+                );
 
-        post.className =
-        "post";
+            post.className =
+                "post";
 
-        post.innerHTML = `
+            let mediaHTML = "";
 
-            <div class="post-title">
-                ${entry.title}
-            </div>
+            if (entry.media_url) {
 
-            <div class="post-date">
-                ${new Date(
-                    entry.created_at
-                ).toLocaleString()}
-            </div>
+                mediaHTML =
+                    `
+                    <img
+                        src="${entry.media_url}"
+                        class="post-media"
+                        alt="GIF/Image"
+                    >
+                    `;
+            }
 
-            <div class="post-content">
-                ${entry.content}
-            </div>
+            post.innerHTML = `
+                <div class="post-title">
+                    ${entry.title}
+                </div>
 
-            <button
-                class="delete-btn"
-                onclick="deleteEntry('${entry.id}')">
+                <div class="post-date">
+                    ${new Date(
+                        entry.created_at
+                    ).toLocaleString()}
+                </div>
 
-                Delete
+                <div class="post-content">
+                    ${entry.content}
+                </div>
 
-            </button>
+                ${mediaHTML}
 
-        `;
+                <button
+                    class="delete-btn"
+                    onclick="deleteEntry('${entry.id}')">
+                    Delete
+                </button>
+            `;
 
-        container.appendChild(
-            post
-        );
-    });
+            container.appendChild(
+                post
+            );
+        });
 
-    const totalPages =
-    Math.max(
-        1,
-        Math.ceil(
-            Entries.length /
-            EntriesPerPage
-        )
-    );
-
-    document
-    .getElementById(
-        "pageNumber"
-    )
-    .innerText =
-    `Page ${currentPage} of ${totalPages}`;
+    updatePageNumber();
 }
 
 // ============================
 // PAGINATION
 // ============================
 
-window.nextPage =
-function(){
+function updatePageNumber() {
 
     const totalPages =
-    Math.ceil(
-        Entries.length /
-        EntriesPerPage
-    );
+        Math.max(
+            1,
+            Math.ceil(
+                entries.length /
+                entriesPerPage
+            )
+        );
 
-    if(
+    document
+        .getElementById(
+            "pageNumber"
+        )
+        .innerText =
+        `Page ${currentPage} of ${totalPages}`;
+}
+
+window.nextPage = function () {
+
+    const totalPages =
+        Math.ceil(
+            entries.length /
+            entriesPerPage
+        );
+
+    if (
         currentPage <
         totalPages
-    ){
+    ) {
 
         currentPage++;
 
@@ -331,12 +431,11 @@ function(){
     }
 };
 
-window.prevPage =
-function(){
+window.prevPage = function () {
 
-    if(
+    if (
         currentPage > 1
-    ){
+    ) {
 
         currentPage--;
 

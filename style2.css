@@ -298,6 +298,7 @@ header h1{
     );
 }
 
+
 /* =========================
    POSTS
 ========================= */
@@ -364,17 +365,12 @@ header h1{
 ========================= */
 
 .post-media{
-
     width:100%;
-
-    height:400px;
-
-    object-fit:cover;
-
+    max-width:500px;
+    max-height:300px;
+    object-fit:contain;
     border-radius:10px;
-
-    border:2px solid #aac4ff;
-
+    display:block;
     margin-top:10px;
 }
 
