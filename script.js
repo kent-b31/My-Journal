@@ -1,3 +1,13 @@
+    const quill =
+        new Quill(
+        "#editor",
+    {
+        theme: "snow"
+    }
+
+    
+);
+
 // ============================
 // SUPABASE CONFIG
 // ============================
@@ -101,10 +111,7 @@ window.addEntry = async function () {
         .trim();
 
     const content =
-        document
-        .getElementById("entry")
-        .value
-        .trim();
+        quill.root.innerHTML;
 
     const file =
         document
@@ -211,9 +218,7 @@ window.addEntry = async function () {
         .getElementById("title")
         .value = "";
 
-    document
-        .getElementById("entry")
-        .value = "";
+    quill.setText("");
 
     document
         .getElementById("media")
