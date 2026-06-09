@@ -88,6 +88,16 @@ window.login = async function () {
 };
 
 // ============================
+// JOURNAL
+// ============================
+
+async function journal() {
+    
+    window.open("habit-tracker.html", "_blank");
+
+}
+
+// ============================
 // LOGOUT
 // ============================
 

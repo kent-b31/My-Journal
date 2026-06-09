@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Habit Tracker</title>
+<link rel="stylesheet" href="ht-style.css">
+
+</head>
+<body>
+
+<div class="container">
+    <h1>Habit Tracker</h1>
+
+    <div class="add-habit">
+        <input type="text" id="habitInput" placeholder="Enter a habit">
+        <button onclick="addHabit()">Add</button>
+    </div>
+
+    <div id="habitList"></div>
+</div>
+
+    <footer>
+
+        <p>
+            v.1.0
+        </p>
+
+    </footer>
+
+
+<script>
+let habits = JSON.parse(localStorage.getItem("habits")) || [];
+
+const checkSound = new Audio("ding.mp3");
+const notifSound = new Audio("notif.mp3");
+
+const successSounds = [
+    new Audio("success-voice.wav"),
+    new Audio("success-voice2.wav"),
+    new Audio("success-voice3.wav"),
+    new Audio("success-voice4.wav"),
+    new Audio("success-voice5.wav"),
+
+];
+
+function playRandomSuccessSound() {
+    const sound =
+        successSounds[Math.floor(Math.random() * successSounds.length)];
+
+    sound.currentTime = 0;
+    sound.play();
+}
+
+const alreadyDoneSounds = [
+    new Audio("completed-voice.wav"),
+    new Audio("completed-voice2.wav"),
+    new Audio("completed-voice3.wav"),
+    new Audio("completed-voice4.wav"),
+    new Audio("completed-voice5.wav"),
+];
+
+function playRandomAlreadyDoneSound() {
+    const randomIndex = Math.floor(
+        Math.random() * alreadyDoneSounds.length
+    );
+
+    const sound = alreadyDoneSounds[randomIndex];
+
+    sound.currentTime = 0;
+    sound.play();
+}
+
+function saveHabits(){
+    localStorage.setItem("habits", JSON.stringify(habits));
+}
+
+function addHabit(){
+    const input = document.getElementById("habitInput");
+    const name = input.value.trim();
+
+    if(!name) return;
+
+    habits.push({
+        name,
+        streak:0,
+        lastCompleted:null
+    });
+
+
+    saveHabits();
+    renderHabits();
+    input.value="";
+}
+
+function completeHabit(index){
+    const today = new Date().toDateString();
+    const habit = habits[index];
+    
+
+    if(habit.lastCompleted === today){
+        playRandomAlreadyDoneSound();
+
+        notifSound.currentTime = 0;
+        notifSound.play();
+
+        alert("Already completed today.");
+        return;
+    }
+
+    if(habit.lastCompleted){
+        const lastDate = new Date(habit.lastCompleted);
+        const currentDate = new Date(today);
+        
+        const diffDays =
+        Math.floor(
+            (currentDate - lastDate) /
+            (1000 * 60 * 60 * 24)
+        );
+
+        if(diffDays === 1){
+            habit.streak++;
+        }
+        else if(diffDays > 1){
+            habit.streak = 1;
+        }
+    }else{
+        habit.streak = 1;
+    }
+
+    habit.lastCompleted = today;
+
+    checkSound.currentTime = 0;
+    checkSound.play();
+
+    playRandomSuccessSound();
+
+    saveHabits();
+    renderHabits();
+}
+
+function failHabit(index){
+    habits[index].streak = 0;
+    habits[index].lastCompleted = null;
+
+    saveHabits();
+    renderHabits();
+}
+
+function renderHabits(){
+    const list = document.getElementById("habitList");
+
+    list.innerHTML = "";
+
+    habits.forEach((habit,index)=>{
+
+        const div = document.createElement("div");
+        div.className = "habit";
+
+        div.innerHTML = `
+            <div class="habit-info">
+                <h3>${habit.name}</h3>
+                <div class="streak">
+                    🔥 ${habit.streak} ${habit.streak !== 1 ? "" : ""}
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="check-btn"
+                    onclick="completeHabit(${index})">
+                    ✔
+                </button>
+            </div>
+        `;
+
+        list.appendChild(div);
+    });
+}
+
+function checkMissedDays(){
+    const today = new Date();
+
+    habits.forEach(habit=>{
+
+        if(!habit.lastCompleted) return;
+
+        const lastDate = new Date(habit.lastCompleted);
+
+        const diffDays =
+        Math.floor(
+            (today - lastDate) /
+            (1000 * 60 * 60 * 24)
+        );
+
+        if(diffDays > 1){
+            habit.streak = 0;
+        }
+    });
+
+    saveHabits();
+}
+
+checkMissedDays();
+renderHabits();
+</script>
+
+</body>
+</html>
