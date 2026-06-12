@@ -9,17 +9,11 @@
 }
 
 body{
-    font-family:Verdana, Geneva, sans-serif;
-
-    background:
-    linear-gradient(
-        to bottom,
-        #c9ddff 0%,
-        #8cb4f0 50%,
-        #5d8ed8 100%
-    );
-
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
     min-height:100vh;
+    color: white;
 }
 
 /* =========================
@@ -47,21 +41,24 @@ body{
 
     width:420px;
 
-    background:
-    linear-gradient(
-        to bottom,
-        #ffffff,
-        #eef5ff
-    );
-
-    border:3px solid #2f65c8;
-
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius:20px;
-
     padding:30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
 
-    box-shadow:
-    0 0 25px rgba(0,0,0,.3);
+.login-box img {
+
+    width: 200px;
+    margin-bottom: 15px;
+
+}
+
+.journal-logo {
+
+    width: 200px;
 }
 
 #logo{
@@ -76,30 +73,26 @@ body{
 
 .login-box h1{
 
-    color:#0048b5;
+    color: white; 
 
-    text-align:center;
+    text-align: center;
 
     margin:15px 0 25px;
 
     font-size:28px;
+
 }
 
 .login-box input{
 
     width:100%;
-
     padding:12px;
-
     margin-bottom:15px;
-
-    border:2px solid #7ca6f7;
-
     border-radius:10px;
-
-    background:#f7fbff;
-
     font-size:15px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: white;
 }
 
 
@@ -121,12 +114,7 @@ body{
 
     cursor:pointer;
 
-    background:
-    linear-gradient(
-        to bottom,
-        #6eb7ff,
-        #0057d6
-    );
+    background: #3b82f6;
 
     box-shadow:
     inset 0 1px 0 white,
@@ -164,42 +152,22 @@ body{
    HEADER
 ========================= */
 
-header{
+header {
 
     width:90%;
     max-width:1000px;
-
     margin:20px auto;
-
     border-radius: 15px;
-
     padding:20px;
-
-    background:
-    linear-gradient(
-        to bottom,
-        #6cb8ff,
-        #004fc9
-    );
-
-    border:2px solid #00348c;
-
-    color:white;
-
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
     display:flex;
     justify-content:space-between;
     align-items:center;
 
-    box-shadow:
-    0 4px 10px rgba(0,0,0,.3);
-}
-
-header h1{
-
-    font-size:32px;
-
-    text-shadow:
-    2px 2px 4px rgba(0,0,0,.4);
 }
 
 .navbtns {
@@ -207,49 +175,41 @@ header h1{
     gap: 5px;
 }
 
-.logout-btn{
-
-    background:
-    linear-gradient(
-        to bottom,
-        #ff8080,
-        #c50000
-    );
-
-    border:none;
-
-    color:white;
-
-    font-weight:bold;
-
-    padding:10px 15px;
-
-    border-radius:10px;
-
-    cursor:pointer;
+.logout-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.journal-btn{
-
-    background:
-    linear-gradient(
-        to bottom,
-        #6eb7ff,
-        #0057d6
-    );
-
-    border:none;
-
-    color:white;
-
-    font-weight:bold;
-
-    padding:10px 15px;
-
-    border-radius:10px;
-
-    cursor:pointer;
+.logout-btn:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
 }
+
+.journal-btn {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.journal-btn:hover {
+    background: #2f65bb;
+    transform: translateY(-2px);
+}
+
+
 
 
 /* =========================
@@ -268,38 +228,63 @@ header h1{
 
     padding:25px;
 
-    background:white;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    color: white;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
 
-    border:3px solid #6b9ef5;
+}
 
-    border-radius:15px;
+.ql-editor {
+    background-color: #1e293b;
+    color: #f8fafc;
+    min-height: 300px;
+}
 
-    box-shadow:
-    0 4px 10px rgba(0,0,0,.2);
+.ql-container {
+    border: 1px solid #334155;
+}
+
+.ql-toolbar {
+    background-color: #0f172a;
+    border: 1px solid #334155;
+}
+
+.ql-toolbar.ql-snow {
+    background: #0f172a;
+    border: 1px solid #334155;
+}
+
+.ql-snow .ql-stroke {
+    stroke: #ffffff;
+}
+
+.ql-snow .ql-fill {
+    fill: #ffffff;
+}
+
+.ql-snow .ql-picker {
+    color: #ffffff;
 }
 
 .entry-form input,
 .entry-form textarea{
 
     width:100%;
-
     padding:12px;
-
     margin-bottom:15px;
-
-    border:2px solid #7ca6f7;
-
     border-radius:10px;
-
-    background:#f8fbff;
-
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.15);
     font-size:15px;
+    color: white;
 }
 
 .entry-form textarea{
 
     min-height:180px;
-
     resize:vertical;
 }
 
@@ -319,12 +304,8 @@ header h1{
 
     cursor:pointer;
 
-    background:
-    linear-gradient(
-        to bottom,
-        #6eb7ff,
-        #0057d6
-    );
+    background: #3b82f6;
+
 }
 
 
@@ -342,29 +323,24 @@ header h1{
 
 .post{
 
-    background:white;
-
-    border:2px solid #7ea6f0;
-
-    border-radius:15px;
-
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
     padding:20px;
-
     margin-bottom:20px;
-
-    box-shadow:
-    0 4px 10px rgba(0,0,0,.15);
 }
 
 .post-title{
 
     font-size:22px;
 
-    color:#0048b5;
+    color: white;
 
     font-weight:bold;
 
-    border-bottom:1px solid #d5e4ff;
+    border-bottom:1px solid #d5d5d6;
 
     padding-bottom:10px;
 
@@ -394,9 +370,7 @@ header h1{
 ========================= */
 
 .post-media{
-    width:100%;
-    max-width:500px;
-    max-height:300px;
+    width:40%;
     object-fit:contain;
     border-radius:10px;
     display:block;
@@ -409,27 +383,23 @@ header h1{
 
 .delete-btn{
 
-    margin-top:15px;
-
-    background:
-    linear-gradient(
-        to bottom,
-        #ff8080,
-        #c50000
-    );
-
-    color:white;
-
-    border:none;
-
-    border-radius:10px;
-
-    padding:10px 15px;
-
-    font-weight:bold;
-
-    cursor:pointer;
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
 }
+
+.delete-btn:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+}
+
 
 /* =========================
    PAGINATION
@@ -450,13 +420,8 @@ header h1{
 
 .pagination button{
 
-    background:
-    linear-gradient(
-        to bottom,
-        #6eb7ff,
-        #0057d6
-    );
-
+    background: #0057d6;
+    
     color:white;
 
     border:none;
@@ -529,8 +494,9 @@ footer{
     }
 
     .post-media{
-        height:250px;
+        width: 50%;
     }
+
 }
 
 #editor{
