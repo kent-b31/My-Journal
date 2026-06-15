@@ -235,6 +235,7 @@ header {
     color: white;
     box-shadow: 0 20px 40px rgba(0,0,0,0.3);
 
+
 }
 
 .ql-editor {
@@ -305,6 +306,45 @@ header {
     cursor:pointer;
 
     background: #3b82f6;
+
+}
+
+/* Mood selector */
+
+.post-mood{
+
+    font-size:12px;
+
+    margin-bottom:10px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    backdrop-filter: blur(15px);
+
+    width: fit-content;
+
+    padding:5px 15px;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 20px;
+
+}
+
+.mood-picker{
+
+    margin-bottom:20px;
+
+    
+}
+
+#mood{
+
+    width:100%;
+
+    padding:10px;
+
+    font-size:16px;
 
 }
 

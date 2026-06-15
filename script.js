@@ -8,6 +8,8 @@
     
 );
 
+const audio = new Audio("done.mp3");
+
 // ============================
 // SUPABASE CONFIG
 // ============================
@@ -108,6 +110,14 @@ window.logout = async function () {
     location.reload();
 };
 
+// SFX
+
+function playSound() {
+
+    audio.currentTime = 0;
+    audio.play();
+}
+
 // ============================
 // ADD ENTRY + GIF UPLOAD
 // ============================
@@ -127,6 +137,11 @@ window.addEntry = async function () {
         document
         .getElementById("media")
         .files[0];
+
+    const mood =
+        document
+        .getElementById("mood")
+        .value;
 
     if (!title || !content) {
 
@@ -192,6 +207,10 @@ window.addEntry = async function () {
             data.publicUrl;
     }
 
+    // Mood Tracker
+
+
+
     // ========================
     // SAVE ENTRY
     // ========================
@@ -211,9 +230,14 @@ window.addEntry = async function () {
                 content,
 
             media_url:
-                mediaUrl
+                mediaUrl,
+
+            mood:
+                mood
 
         }]);
+
+        playSound();
 
     if (error) {
 
@@ -373,6 +397,11 @@ function renderEntries() {
             }
 
             post.innerHTML = `
+
+                <div class="post-mood">
+                    ${entry.mood}
+                </div>
+                
                 <div class="post-title">
                     ${entry.title}
                 </div>
